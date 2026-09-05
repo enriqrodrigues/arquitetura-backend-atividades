@@ -1,0 +1,8 @@
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> $env:ELEGIBILIDADE_PORT = 18001
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> $env:EXAMES_PORT = 18002
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> docker compose -f infra/compose.servicos.yml config --quiet
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> docker compose -f infra/compose.servicos.yml config --services
+db_elegibilidade
+db_exames
+elegibilidade
+exames

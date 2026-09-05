@@ -1,0 +1,36 @@
+SIMULANDO FALHA PARCIAL
+
+Serviço elegibilidade parado:
+
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> docker compose -f infra/compose.servicos.yml ps
+NAME                       IMAGE                    COMMAND                  SERVICE            CREATED          STATUS                    PORTS
+infra-db_elegibilidade-1   infra-db_elegibilidade   "docker-entrypoint.s…"   db_elegibilidade   27 minutes ago   Up 27 minutes (healthy)   5432/tcp
+infra-db_exames-1          infra-db_exames          "docker-entrypoint.s…"   db_exames          27 minutes ago   Up 27 minutes (healthy)   5432/tcp
+infra-exames-1             infra-exames             "python -m uvicorn h…"   exames             27 minutes ago   Up 27 minutes (healthy)   0.0.0.0:18002->8000/tcp, [::]:18002->8000/tcp
+
+
+Teste das rotas de saúde (/health):
+
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> curl.exe -i "http://localhost:$env:EXAMES_PORT/health"
+HTTP/1.1 200 OK
+date: Sat, 05 Sep 2026 15:03:33 GMT
+server: uvicorn
+content-length: 34
+content-type: application/json
+
+{"status":"ok","servico":"exames"}
+
+
+Tentativa de criar uma nova solicitação de exame:
+
+PS D:\projects\Eng. de Software\U2_Arq_BackEnd\arquitetura-software\laboratorios\plataforma-hospitalar> curl.exe -i -X POST "http://localhost:$env:EXAMES_PORT/exames" `
+>>   -H "Content-Type: application/json" `
+>>   -d '{\"beneficiario_id\":\"paciente-001\",\"codigo_exame\":\"HEM-001\"}'
+HTTP/1.1 503 Service Unavailable
+date: Sat, 05 Sep 2026 15:05:26 GMT
+server: uvicorn
+content-length: 48
+content-type: application/json
+
+{"detail":{"codigo":"dependencia_indisponivel"}}
+
